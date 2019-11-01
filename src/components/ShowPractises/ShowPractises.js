@@ -2,7 +2,7 @@ import React from 'react';
 import { Accordion, Header, Icon, Button } from 'semantic-ui-react'
 import ModalPopup from '../Modals/ModalPopup';
 
-export class ShowPractises extends React.Component {
+class ShowPractises extends React.Component {
 
    constructor(props) {
       super(props);
@@ -85,3 +85,5 @@ export class ShowPractises extends React.Component {
      )
    }
 }
+
+export default ShowPractises;

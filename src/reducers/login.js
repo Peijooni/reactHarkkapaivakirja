@@ -1,16 +1,11 @@
-const login = (state = [], action) => {
+const login = (state =  null, action) => {
     switch (action.type) {
       case 'LOGIN':
           // Add database logic?
-        return [
-          {
-            access_token: action.access_token
-          }
-        ]
+        return action.access_token
+          
       case 'LOGOUT':
-        return [{
-            access_token: null
-          }]
+        return null
       default:
         return state
     }
