@@ -1,9 +1,11 @@
 import React from 'react';
 import {BrowserRouter, Switch, Route, Redirect} from 'react-router-dom';
+import { connect } from 'react-redux'
 import Compund from './components/Compound/Compound';
 import AppHeader from './components/Header/AppHeader';
 import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
+import {loading} from './actions/index';
 
 class App extends React.Component {
   constructor(props) {
@@ -20,6 +22,7 @@ class App extends React.Component {
 
 
   render() {
+    console.log("from APP:",this.props);
      return (
       <React.Fragment>
         <AppHeader />
@@ -35,17 +38,27 @@ class App extends React.Component {
               (<Compund />) :
                 (<Redirect to="/logout"/>)
               }/>
+              <Route path='/login' component={() => {
+                this.props.dispatch(loading());
+                window.location.href = 'http://github.com/login/oauth/authorize?client_id=1159e004bdfd8fd0d590' +
+                '&redirect_uri=http://localhost:4200/log&state=abcddcba12344321'; 
+                return null;
+              }}/>
+              <Route path="/log" render={() => <Login />}/>
               <Route path="/logout" render={() => <Logout />}/>                
               <Route render={() => <Redirect to="/"/>}/>
           </Switch>
-        </BrowserRouter>
-        <Login getState={this.props.store}/>
-
-        
+        </BrowserRouter>        
       </React.Fragment>
      )
 
      }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+  return {
+      access_token: state.login
+  }
+}
+
+export default connect(mapStateToProps)(App);
