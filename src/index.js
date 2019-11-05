@@ -3,11 +3,13 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux'
 import { compose, createStore, applyMiddleware  } from 'redux'
 import thunk from 'redux-thunk'
+import {BrowserRouter} from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import { persistStore, persistReducer } from 'redux-persist';
 import storageSession from 'redux-persist/lib/storage/session'
+//import storage from 'redux-persist/lib/storage'
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
@@ -35,9 +37,11 @@ const persistor = persistStore(store);
 
 ReactDOM.render(
 <Provider store={store}>
-    <PersistGate loading={<Logout />} persistor={persistor}>
-        <App />
-    </PersistGate>
+    <BrowserRouter>
+        <PersistGate loading={<Logout />} persistor={persistor}>
+            <App />
+        </PersistGate>
+    </BrowserRouter>
 </Provider>
 , document.getElementById('root'));
 

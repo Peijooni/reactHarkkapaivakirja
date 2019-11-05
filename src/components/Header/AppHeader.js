@@ -1,16 +1,18 @@
 import React from 'react';
 import { Button, Header } from 'semantic-ui-react'
-import { login, logout } from '../../actions'
+import {withRouter} from 'react-router-dom';
+import { logout } from '../../actions'
 import { connect } from 'react-redux'
 
 class AppHeader extends React.Component {
 
    login = () => {
-      this.props.dispatch(login("abcdefg"));
+      this.props.history.push('/login');
    }
 
    logout = () => {
       this.props.dispatch(logout());
+      this.props.history.push('/logout');
    }
 
   render() {
@@ -19,14 +21,9 @@ class AppHeader extends React.Component {
          <Header>Harjoituspäiväkirja</Header>         
             <Button type='submit' onClick={this.login}>Login</Button>
             <Button type='submit' onClick={this.logout}>Logout</Button>
-            <Button type='submit' onClick={() => console.log(this.props.access_token)}>testi</Button>
       </React.Fragment>
      )
    }
 }
-const mapStateToProps = (state) => {
-   return {
-       access_token: state.login
-   }
- }
-export default connect(mapStateToProps)(AppHeader);
+
+export default withRouter(connect()(AppHeader));

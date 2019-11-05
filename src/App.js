@@ -11,8 +11,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      id: 1,
-      isLogged: true
+      id: 1
     }
   }
 
@@ -25,16 +24,16 @@ class App extends React.Component {
     console.log("from APP:",this.props);
      return (
       <React.Fragment>
-        <AppHeader />
-        <BrowserRouter>
+        <BrowserRouter>        
+          <AppHeader />
           <Switch>
             <Route exact path="/" render= {
-              () => this.state.isLogged ?
+              () => (this.props.access_token !== null) ?
               (<Redirect to="/app"/>) :
               (<Redirect to="/logout"/>)
               }/>
               <Route path="/app" render={
-              () => this.state.isLogged ? 
+              () => (this.props.access_token !== null) ? 
               (<Compund />) :
                 (<Redirect to="/logout"/>)
               }/>
