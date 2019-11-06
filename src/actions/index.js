@@ -20,6 +20,7 @@ export const deletePractise = (id) => ({
     
 })
 
+
 export const getPractises = (token) => {
     return (dispatch) => {
         dispatch(loading());
@@ -38,6 +39,23 @@ export const getPractises = (token) => {
     }
 }
 
+export const getPractise = (token, id) => {
+    return (dispatch) => {
+        dispatch(loading());
+        return axios.get('https://localhost:8443/practises/' + id + '?token=' + token)
+                .then(
+                    response => { 
+                        console.log(response.data); 
+                        dispatch(loaded()); 
+                        return response.data;
+                    },
+                    error => {
+                        dispatch(loaded()); 
+                        console.error("An error occured", error);
+                     }
+                );
+    }
+}
 export const login = (access_token) => ({
     type: 'LOGIN',
     access_token:access_token

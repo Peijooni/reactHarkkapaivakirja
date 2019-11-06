@@ -38,8 +38,8 @@ class App extends React.Component {
               }/>
               <Route path='/login' component={() => {
                 this.props.dispatch(loading());
-                window.location.href = 'http://github.com/login/oauth/authorize?client_id=1159e004bdfd8fd0d590' +
-                '&redirect_uri=http://localhost:4200/log&state=abcddcba12344321'; 
+                window.location.replace('http://github.com/login/oauth/authorize?client_id=1159e004bdfd8fd0d590' +
+                '&redirect_uri=http://localhost:4200/log&state=abcddcba12344321'); 
                 return null;
               }}/>
               <Route path="/log" render={() => <Login />}/>

@@ -1,7 +1,9 @@
 import React from 'react';
-import { Button, Header, Modal } from 'semantic-ui-react'
+import { Button, Header, Modal } from 'semantic-ui-react';
+import { connect } from 'react-redux';
+import { loading, getPractise } from '../../actions/index';
 
-export default class ModalPopup extends React.Component {
+class ModalPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -20,6 +22,7 @@ export default class ModalPopup extends React.Component {
   }
 
   render() {
+    this.props.dispatch(getPractise(this.props.access_token, this.props.id)).then(data => console.log(data));
      return (
         <Modal trigger={<Button>Edit practise</Button>} centered={false}>
           <Modal.Header>Edit practise</Modal.Header>
@@ -50,3 +53,9 @@ export default class ModalPopup extends React.Component {
       )
    }
 }
+const mapStateToProps = (state) => {
+  return {
+      access_token: state.login
+  }
+}
+export default connect(mapStateToProps)(ModalPopup);
