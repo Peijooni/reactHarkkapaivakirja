@@ -10,15 +10,8 @@ export interface Practise {
 const practises = (state = [], action) => {
     switch (action.type) {
       case 'ADD_PRACTISE':
-          // Add database logic?
         return [
-          ...state,
-          {
-            id: action.id,
-            title: action.title,
-            description: action.description,
-            date: action.date
-          }
+          ...state, action.practise
         ]
       case 'DELETE_PRACTISE':
         return state.filter(item => item.id !== action.id)

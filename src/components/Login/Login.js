@@ -22,23 +22,50 @@ class Login extends React.Component {
           return null;
     }
 
+    userExists = async (access_token) => {
+        return await axios.get('https://localhost:8443/userExists?token='+access_token);
+    }
+
+    createUser = async (token) => {
+          return await axios.get('https://localhost:8443/createUser?token=' + token);
+    }
+
     componentDidMount() {
         
         const query = new URLSearchParams(window.location.search);
         const code = query.get('code');
         const securityState = query.get('state');
         if(code && securityState) {
-            const access_token = this.getToken(code)
-            access_token.then(token => {
-                this.props.dispatch(login(token));
-                this.props.dispatch(loaded());
-                this.props.history.push('/app');    
-            });
+            if(securityState === "abcddcba12344321") {
+                const access_token = this.getToken(code);
+                access_token.then(token => {
+                    this.userExists(token)
+                    .then(exists => {
+                        if(exists) {
+                            this.props.dispatch(login(token));
+                            this.props.dispatch(loaded());
+                            this.props.history.push('/app');
+                        } else {
+                            this.createUser(token)
+                            .then(id => { 
+                                console.log("created new user")
+                                this.props.dispatch(login(token));
+                                this.props.dispatch(loaded());
+                                this.props.history.push('/app');
+                            },
+                                error => console.log(error));
+                        }
+                    })                     
+                })
+                .catch(error => console.error(error));
+            } else {
+                this.props.history.push('/logout');
+            }
         } else {
             this.props.history.push('/logout');
         }
 
-      }
+    }
     
     render() {
         return (

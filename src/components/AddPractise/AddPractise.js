@@ -1,10 +1,19 @@
 import React from 'react';
 import { Form, Button, Header } from 'semantic-ui-react'
 import useForm  from 'react-hook-form';
+import { connect } from 'react-redux'
+import { addPractise, loading, loaded } from '../../actions/index';
 
-const AddPractise = () => {
+const AddPractise = (props) => {
+
    const { register, handleSubmit, errors } = useForm()
-   const onSubmit = data => { console.log(data);}  
+
+   const onSubmit = practise => { 
+      console.log(practise);
+      props.dispatch(loading());
+      props.dispatch(addPractise(props.access_token, practise));
+      props.dispatch(loaded());
+   }  
    
      return (
       <React.Fragment>
@@ -38,4 +47,10 @@ const AddPractise = () => {
      )
 }
 
-export default AddPractise;
+const mapStateToProps = (state) => {
+   return {
+       access_token: state.login
+   }
+ }
+
+export default connect(mapStateToProps)(AddPractise);

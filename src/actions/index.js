@@ -8,7 +8,7 @@ export const loaded = () => ({
     type: 'LOADED'
 })
 
-export const addPractise = (practise) => ({
+const practiseAdded = (practise) => ({
     type: 'ADD_PRACTISE',
     practise:practise
 
@@ -20,6 +20,22 @@ export const deletePractise = (id) => ({
     
 })
 
+export const addPractise = (access_token, practise) => {
+    return (dispatch) => {
+        dispatch(loading());
+        axios.post('https://localhost:8443/practises?token=' + access_token, practise)
+                .then(
+                    response => {
+                        dispatch(practiseAdded(practise));
+                        dispatch(loaded()); 
+                    },
+                    error => {
+                        dispatch(loaded()); 
+                        console.error("An error occured", error);
+                     }
+                );
+    }
+}
 
 export const getPractises = (token) => {
     return (dispatch) => {
@@ -56,6 +72,7 @@ export const getPractise = (token, id) => {
                 );
     }
 }
+
 export const login = (access_token) => ({
     type: 'LOGIN',
     access_token:access_token
