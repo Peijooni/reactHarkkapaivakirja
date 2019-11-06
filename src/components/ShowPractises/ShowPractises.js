@@ -38,10 +38,11 @@ class ShowPractises extends React.Component {
          index={index}
          onClick={this.handleClick}>
          <Icon name='dropdown' />
-         {item.title} {item.date}
+         {item.date} {item.title} 
          </Accordion.Title>
          <Accordion.Content active={this.state.activeIndex === index}>
          {item.description}
+         <br />
          <ModalPopup id={item.id} />
          <Button>Delete practise</Button>
          </Accordion.Content></React.Fragment>
