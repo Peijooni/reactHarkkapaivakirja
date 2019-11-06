@@ -21,65 +21,36 @@ class ShowPractises extends React.Component {
    }
 
   render() {
+     const testi = [{
+                     id: 1,
+                     title: "testi",
+                     description: "ökjfgölkdölk",
+                     date: "2019-02-03"
+                  },
+                  {
+                     id: 2,
+                     title: "testi2",
+                     description: "gfökdfgödhgl",
+                     date: "2018-02-01"
+                  }];
+      let items = testi.map((item, index) => {
+         return <React.Fragment key={index}><Accordion.Title key={index} active={this.state.activeIndex === index}
+         index={index}
+         onClick={this.handleClick}>
+         <Icon name='dropdown' />
+         {item.title} {item.date}
+         </Accordion.Title>
+         <Accordion.Content active={this.state.activeIndex === index}>
+         {item.description}
+         <ModalPopup id={item.id} />
+         <Button>Delete practise</Button>
+         </Accordion.Content></React.Fragment>
+      });
      return(
       <React.Fragment>
          <Header>Practises</Header>
          <Accordion styled>
-            <Accordion.Title
-               active={this.state.activeIndex === 0}
-               index={0}
-               onClick={this.handleClick}
-            >
-               <Icon name='dropdown' />
-               What is a dog?
-            </Accordion.Title>
-            <Accordion.Content active={this.state.activeIndex === 0}>
-               <p>
-               A dog is a type of domesticated animal. Known for its loyalty and
-               faithfulness, it can be found as a welcome guest in many households
-               across the world.
-               </p>
-               <ModalPopup id={this.state.id} />
-               <Button>Delete practise</Button>
-            </Accordion.Content>
-
-            <Accordion.Title
-               active={this.state.activeIndex === 1}
-               index={1}
-               onClick={this.handleClick}
-            >
-               <Icon name='dropdown' />
-               What kinds of dogs are there?
-            </Accordion.Title>
-            <Accordion.Content active={this.state.activeIndex === 1}>
-               <p>
-               There are many breeds of dogs. Each breed varies in size and
-               temperament. Owners often select a breed of dog that they find to be
-               compatible with their own lifestyle and desires from a companion.
-               </p>
-            </Accordion.Content>
-
-            <Accordion.Title
-               active={this.state.activeIndex === 2}
-               index={2}
-               onClick={this.handleClick}
-            >
-               <Icon name='dropdown' />
-               How do you acquire a dog?
-            </Accordion.Title>
-            <Accordion.Content active={this.state.activeIndex === 2}>
-               <p>
-               Three common ways for a prospective owner to acquire a dog is from
-               pet shops, private owners, or shelters.
-               </p>
-               <p>
-               A pet shop may be the most convenient way to buy a dog. Buying a dog
-               from a private owner allows you to assess the pedigree and
-               upbringing of your dog before choosing to take it home. Lastly,
-               finding your dog from a shelter, helps give a good home to a dog who
-               may not find one so readily.
-               </p>
-            </Accordion.Content>
+            {items}
          </Accordion>
       </React.Fragment>
      )
