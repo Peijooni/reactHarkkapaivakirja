@@ -5,7 +5,7 @@ import Compund from './components/Compound/Compound';
 import AppHeader from './components/Header/AppHeader';
 import Login from './components/Login/Login';
 import Logout from './components/Logout/Logout';
-import {loading} from './actions/index';
+import { loading } from './actions/index';
 
 class App extends React.Component {
   constructor(props) {
@@ -21,7 +21,6 @@ class App extends React.Component {
 
 
   render() {
-    console.log("from APP:",this.props);
      return (
       <React.Fragment>
         <BrowserRouter>        
