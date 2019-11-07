@@ -14,6 +14,11 @@ const practiseAdded = (practise) => ({
 
 })
 
+const initPractises = (practises) => ({
+    type: 'INIT_PRACTISES',
+    practises: practises
+})
+
 export const deletePractise = (id) => ({
     type: 'DELETE_PRACTISE',
     id:id
@@ -42,10 +47,10 @@ export const getPractises = (token) => {
         dispatch(loading());
         return axios.get('https://localhost:8443/practises?token=' + token)
                 .then(
-                    response => { 
-                        console.log(response.data); 
+                    response => {
+                        dispatch(initPractises(response.data));
                         dispatch(loaded()); 
-                        return response.json() 
+                        return response.data;
                     },
                     error => {
                         dispatch(loaded()); 
@@ -61,7 +66,6 @@ export const getPractise = (token, id) => {
         return axios.get('https://localhost:8443/practises/' + id + '?token=' + token)
                 .then(
                     response => { 
-                        console.log(response.data); 
                         dispatch(loaded()); 
                         return response.data;
                     },

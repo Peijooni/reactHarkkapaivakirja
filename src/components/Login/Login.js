@@ -76,7 +76,6 @@ class Login extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("stateToProps",state);
     return {
         access_token: state,
     }

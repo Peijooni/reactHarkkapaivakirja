@@ -12,11 +12,13 @@ const practises = (state = [], action) => {
       case 'ADD_PRACTISE':
         return [
           ...state, action.practise
-        ]
+        ];
       case 'DELETE_PRACTISE':
-        return state.filter(item => item.id !== action.id)
+        return state.filter(item => item.id !== action.id);
+      case 'INIT_PRACTISES':
+        return action.practises;
       default:
-        return state
+        return state;
     }
   }
   
