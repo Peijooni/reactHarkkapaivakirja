@@ -7,10 +7,16 @@ class ModalPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false
+      open: false,
+      dataReady: false,
+      practise: null
     }
   }
 
+  componentDidMount () {
+    this.props.dispatch(loading());
+    this.getPractise();
+  }
 
   close = () => this.setState({ open: false })
 
@@ -21,9 +27,18 @@ class ModalPopup extends React.Component {
     console.log(this.props.id);
   }
 
+  getPractise = () => {
+    this.props.dispatch(getPractise(this.props.access_token, this.props.id)).then(practise => {
+      this.setState({
+        practise: practise,
+        dataReady: true
+      });
+    });
+  }
+
   render() {
-    this.props.dispatch(getPractise(this.props.access_token, this.props.id)).then(data => console.log(data));
-     return (
+    if (this.state.dataReady) {
+      return (
         <Modal trigger={<Button>Edit practise</Button>} centered={false}>
           <Modal.Header>Edit practise</Modal.Header>
           <Modal.Content image><Modal.Description>
@@ -51,6 +66,13 @@ class ModalPopup extends React.Component {
             </Modal.Actions>
         </Modal>
       )
+    } else {
+      return (<div> spinner! </div>)
+    }
+
+    /*
+     
+      */
    }
 }
 const mapStateToProps = (state) => {

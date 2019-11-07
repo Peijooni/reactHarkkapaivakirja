@@ -2,8 +2,7 @@ import React from 'react';
 import { Accordion, Header, Icon, Button } from 'semantic-ui-react'
 import ModalPopup from '../Modals/ModalPopup';
 import { connect } from 'react-redux'
-import { getPractises } from '../../actions/index';
-import { create } from 'domain';
+import { getPractises, loaded, loading } from '../../actions/index';
 
 class ShowPractises extends React.Component {
 
@@ -12,23 +11,21 @@ class ShowPractises extends React.Component {
       this.state = {
          dataReady: false,
          items:null,
-         activeIndex: 0,
+         activeIndex: -1,
          practises: []
       }
    }
    componentDidMount () {
+      this.props.dispatch(loading());
       this.createItems();
    }
 
    handleClick = (e, titleProps) => {
-      console.log(titleProps);
-      console.log(this.state.activeIndex);
       const { index } = titleProps
       const { activeIndex } = this.state
       const newIndex = activeIndex === index ? -1 : index
 
       this.setState({ activeIndex: newIndex })
-      console.log(this.state.activeIndex);
    }
 
    createItems = () => {
@@ -58,13 +55,14 @@ class ShowPractises extends React.Component {
                </Accordion.Content>
             </React.Fragment>
          });
-      return(  <React.Fragment>
-                  <Header>Practises</Header>
-                  <Accordion styled>
-                     {items}
-                  </Accordion>
-               </React.Fragment>
-            )
+         this.props.dispatch(loaded());
+         return(  <React.Fragment>
+                     <Header>Practises</Header>
+                     <Accordion styled>
+                        {items}
+                     </Accordion>
+                  </React.Fragment>
+               )
       } else {
          return (<div> spinner! </div>)
       }     
