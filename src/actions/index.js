@@ -8,6 +8,18 @@ export const loaded = () => ({
     type: 'LOADED'
 })
 
+export const login = (access_token) => ({
+    type: 'LOGIN',
+    access_token:access_token
+    
+})
+
+export const logout = () => ({
+    type: 'LOGOUT',
+    access_token: null
+    
+})
+
 const practiseAdded = (practise) => ({
     type: 'ADD_PRACTISE',
     practise: practise
@@ -15,7 +27,7 @@ const practiseAdded = (practise) => ({
 })
 
 const practiseEdited = (practise, id) => ({
-    type: 'PRACTISE_EDITED',
+    type: 'EDIT_PRACTISE',
     practise: practise,
     id: id
 })
@@ -25,11 +37,11 @@ const initPractises = (practises) => ({
     practises: practises
 })
 
-export const deletePractise = (id) => ({
+const practiseDeleted = (id) => ({
     type: 'DELETE_PRACTISE',
-    id: id
-    
+    id: id    
 })
+
 
 export const addPractise = (access_token, practise) => {
     return (dispatch) => {
@@ -73,7 +85,7 @@ export const getPractise = (access_token, id) => {
         return axios.get('https://localhost:8443/practises/' + id + '?token=' + access_token)
                 .then(
                     response => { 
-                        dispatch(loaded()); 
+                        dispatch(loaded());
                         return response.data;
                     },
                     error => {
@@ -84,15 +96,14 @@ export const getPractise = (access_token, id) => {
     }
 }
 
-export const editPractise = (token, practise, id) => {
+export const editPractise = (access_token, practise, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.put('https://localhost:8443/practises/' + id + '?token=' + token, practise)
+        return axios.put('https://localhost:8443/practises/' + id + '?token=' + access_token, practise)
                 .then(
-                    response => { 
+                    response => {
                         dispatch(practiseEdited(practise, id));
                         dispatch(loaded());
-                        window.location.reload();
                     },
                     error => {
                         dispatch(loaded()); 
@@ -102,14 +113,20 @@ export const editPractise = (token, practise, id) => {
     }
 }
 
-export const login = (access_token) => ({
-    type: 'LOGIN',
-    access_token:access_token
-    
-})
+export const deletePractise = (access_token, id) => {
+    return (dispatch) => {
+        dispatch(loading());
+        return axios.delete('https://localhost:8443/practises/' + id + '?token=' + access_token)
+                .then(
+                    response => {
+                        dispatch(practiseDeleted(id));
+                        dispatch(loaded());
+                    },
+                    error => {
+                        dispatch(loaded()); 
+                        console.error("An error occured", error);
+                     }
+                );
+    }
+}
 
-export const logout = () => ({
-    type: 'LOGOUT',
-    access_token: null
-    
-})

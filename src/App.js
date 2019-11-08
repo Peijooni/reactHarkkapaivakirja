@@ -15,11 +15,6 @@ class App extends React.Component {
     }
   }
 
-  LogID = () => {
-    console.log(this.state.id)
-  }
-
-
   render() {
      return (
       <React.Fragment>
@@ -50,7 +45,7 @@ class App extends React.Component {
       </React.Fragment>
      )
 
-     }
+  }
 }
 
 const mapStateToProps = (state) => {

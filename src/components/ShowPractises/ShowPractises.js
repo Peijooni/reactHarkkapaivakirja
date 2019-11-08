@@ -2,7 +2,7 @@ import React from 'react';
 import { Accordion, Header, Icon, Button } from 'semantic-ui-react'
 import ModalPopup from '../Modals/ModalPopup';
 import { connect } from 'react-redux'
-import { getPractises, loaded, loading } from '../../actions/index';
+import { getPractises, loaded, loading, deletePractise } from '../../actions/index';
 
 class ShowPractises extends React.Component {
 
@@ -20,6 +20,16 @@ class ShowPractises extends React.Component {
       this.createItems();
    }
 
+   deletePractise = (id) => {
+      this.props.dispatch(loading());
+      this.props.dispatch(deletePractise(this.props.access_token, id))
+      .then(id => { 
+         this.props.dispatch(loaded())          
+         window.location.reload();
+      }, error => console.error(error))
+      .catch(error => console.error(error));
+   }
+
    handleClick = (e, titleProps) => {
       const { index } = titleProps
       const { activeIndex } = this.state
@@ -30,11 +40,12 @@ class ShowPractises extends React.Component {
 
    createItems = () => {
       this.props.dispatch(getPractises(this.props.access_token)).then(practises => {
-         this.setState({ 
+         this.setState({
             dataReady: true,
             practises: practises
-         });
-      }).catch(error => console.error(error));
+         })
+      }, error => console.error(error))
+      .catch(error => console.error(error));
    }
 
   render() {
@@ -51,7 +62,7 @@ class ShowPractises extends React.Component {
                {item.description}
                <br />
                <ModalPopup id={item.id} />
-               <Button>Delete practise</Button>
+               <Button onClick={() => this.deletePractise(item.id)}>Delete practise</Button>
                </Accordion.Content>
             </React.Fragment>
          });
@@ -64,6 +75,7 @@ class ShowPractises extends React.Component {
                   </React.Fragment>
                )
       } else {
+         this.props.dispatch(loading());
          return (<div> spinner! </div>)
       }     
    }

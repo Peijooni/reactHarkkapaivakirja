@@ -13,6 +13,19 @@ const practises = (state = [], action) => {
         return [
           ...state, action.practise
         ];
+      case 'EDIT_PRACTISE':
+        let tempState = state.map(practise => {
+          if(practise.id === action.id) {
+            practise.title = action.practise.title;
+            practise.description = action.practise.description;
+            practise.date = action.practise.date;
+            return practise;
+          }
+          return practise;
+        });
+        return [
+          ...tempState
+        ];
       case 'DELETE_PRACTISE':
         return state.filter(item => item.id !== action.id);
       case 'INIT_PRACTISES':

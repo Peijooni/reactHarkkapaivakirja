@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Button, Header } from 'semantic-ui-react'
 import useForm  from 'react-hook-form';
 import { connect } from 'react-redux'
-import { addPractise, loading, loaded } from '../../actions/index';
+import { addPractise, loading } from '../../actions/index';
 
 const AddPractise = (props) => {
 

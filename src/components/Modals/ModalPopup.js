@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Header, Modal, Form } from 'semantic-ui-react';
+import { Button, Modal, Form } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import { loading, getPractise, editPractise, loaded } from '../../actions/index';
+import { loading, getPractise, editPractise } from '../../actions/index';
 import useForm  from 'react-hook-form';
+import './modalPopup.css';
 
 const ModalPopup = (props) => {
   /*
@@ -20,45 +21,38 @@ const ModalPopup = (props) => {
 
   const onSubmit = practise => {
     props.dispatch(loading());
-    props.dispatch(editPractise(props.access_token, practise, props.id));
+    props.dispatch(editPractise(props.access_token, practise, props.id))
+    .then(id => window.location.reload());
+    close();
  }  
 
   useEffect(() => {
     props.dispatch(loading());
     if(!practise) {
-      console.log("testi")
+      console.log("init");
       initPractise();
     }
   });
 
   const close = () => setOpen(false);
 
-  const changeValue = (value) => {
-    console.log("props.id: ", props.id);
-    console.log("testi");
-    console.log(value);
-    console.log(props.id);
-    console.log(practise.date);
-  }
+  const openModal = () => setOpen(true);
 
   const initPractise = () => {
     props.dispatch(getPractise(props.access_token, props.id)).then(practise => {
-      const temp = practise[0].date.split("T");
-      practise[0].date = temp[0];
       setPractise(practise[0]);
       setDataReady(true);
-    });
+    }, error => console.error(error));
   }
 
   
   if (dataReady) {
     return (
-      <Modal trigger={<Button>Edit practise</Button>} centered={false} closeIcon>
+      <Modal trigger={<Button onClick={openModal}>Edit practise</Button>} centered={false} open={open} closeIcon>
         <Modal.Header>Edit practise</Modal.Header>
 
         <Modal.Content image>
           <Modal.Description>
-            <Header>Default Profile Image</Header>
             <Form onSubmit={handleSubmit(onSubmit)}>
               <Form.Field>
                 <label htmlFor="title">Practise name</label>
@@ -82,24 +76,11 @@ const ModalPopup = (props) => {
                       ref={register({ required: "Date is required" })} />                     
                 {errors.date && <p>{errors.date.message}</p>}  
               </Form.Field>
-              <Button type='submit'>Submit</Button>
+              <Button onClick={close} negative className="modal-button">Cancel</Button>
+              <Button type='submit' positive className="modal-button">Save</Button>
             </Form>
           </Modal.Description>          
         </Modal.Content>
-
-        <Modal.Actions>
-          <Button onClick={() => changeValue(3)}>Testi</Button>
-          <Button onClick={close} negative>
-              No
-            </Button>
-            <Button
-              onClick={close}
-              positive
-              labelPosition='right'
-              icon='checkmark'
-              content='Yes'
-            />
-          </Modal.Actions>
       </Modal>
     )
   } else {

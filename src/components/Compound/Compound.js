@@ -1,7 +1,7 @@
 import React from 'react';
 import AddPractise from '../AddPractise/AddPractise';
 import ShowPractises from '../ShowPractises/ShowPractises';
-import { Grid, Button } from 'semantic-ui-react'
+import { Grid } from 'semantic-ui-react'
 
 class Compound extends React.Component {
   render() {
@@ -12,7 +12,6 @@ class Compound extends React.Component {
                 <Grid.Column><AddPractise /></Grid.Column>
                 <Grid.Column><ShowPractises /></Grid.Column>    
             </Grid>
-            <Button onClick={() => {console.log(this.state.id)}}>Log ID</Button>
         </React.Fragment>
      )
     }
