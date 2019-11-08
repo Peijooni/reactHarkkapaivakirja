@@ -10,8 +10,14 @@ export const loaded = () => ({
 
 const practiseAdded = (practise) => ({
     type: 'ADD_PRACTISE',
-    practise:practise
+    practise: practise
 
+})
+
+const practiseEdited = (practise, id) => ({
+    type: 'PRACTISE_EDITED',
+    practise: practise,
+    id: id
 })
 
 const initPractises = (practises) => ({
@@ -21,7 +27,7 @@ const initPractises = (practises) => ({
 
 export const deletePractise = (id) => ({
     type: 'DELETE_PRACTISE',
-    id:id
+    id: id
     
 })
 
@@ -32,7 +38,8 @@ export const addPractise = (access_token, practise) => {
                 .then(
                     response => {
                         dispatch(practiseAdded(practise));
-                        dispatch(loaded()); 
+                        dispatch(loaded());
+                        window.location.reload();
                     },
                     error => {
                         dispatch(loaded()); 
@@ -42,10 +49,10 @@ export const addPractise = (access_token, practise) => {
     }
 }
 
-export const getPractises = (token) => {
+export const getPractises = (access_token) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get('https://localhost:8443/practises?token=' + token)
+        return axios.get('https://localhost:8443/practises?token=' + access_token)
                 .then(
                     response => {
                         dispatch(initPractises(response.data));
@@ -60,14 +67,32 @@ export const getPractises = (token) => {
     }
 }
 
-export const getPractise = (token, id) => {
+export const getPractise = (access_token, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get('https://localhost:8443/practises/' + id + '?token=' + token)
+        return axios.get('https://localhost:8443/practises/' + id + '?token=' + access_token)
                 .then(
                     response => { 
                         dispatch(loaded()); 
                         return response.data;
+                    },
+                    error => {
+                        dispatch(loaded()); 
+                        console.error("An error occured", error);
+                     }
+                );
+    }
+}
+
+export const editPractise = (token, practise, id) => {
+    return (dispatch) => {
+        dispatch(loading());
+        return axios.put('https://localhost:8443/practises/' + id + '?token=' + token, practise)
+                .then(
+                    response => { 
+                        dispatch(practiseEdited(practise, id));
+                        dispatch(loaded());
+                        window.location.reload();
                     },
                     error => {
                         dispatch(loaded()); 

@@ -6,13 +6,11 @@ import { addPractise, loading, loaded } from '../../actions/index';
 
 const AddPractise = (props) => {
 
-   const { register, handleSubmit, errors } = useForm()
+   const { register, handleSubmit, errors } = useForm();
 
-   const onSubmit = practise => { 
-      console.log(practise);
+   const onSubmit = practise => {
       props.dispatch(loading());
       props.dispatch(addPractise(props.access_token, practise));
-      props.dispatch(loaded());
    }  
    
      return (
