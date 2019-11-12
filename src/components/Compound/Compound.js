@@ -12,6 +12,7 @@ class Compound extends React.Component {
                 <Grid.Column><AddPractise /></Grid.Column>
                 <Grid.Column><ShowPractises /></Grid.Column>    
             </Grid>
+            
         </React.Fragment>
      )
     }

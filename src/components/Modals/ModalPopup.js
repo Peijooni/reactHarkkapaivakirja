@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'semantic-ui-react';
+import { Button, Modal, Form, Dimmer, Loader } from 'semantic-ui-react';
 import { connect } from 'react-redux';
 import { loading, getPractise, editPractise } from '../../actions/index';
 import useForm  from 'react-hook-form';
@@ -29,7 +29,6 @@ const ModalPopup = (props) => {
   useEffect(() => {
     props.dispatch(loading());
     if(!practise) {
-      console.log("init");
       initPractise();
     }
   });
@@ -84,7 +83,11 @@ const ModalPopup = (props) => {
       </Modal>
     )
   } else {
-    return (<div> spinner! </div>)
+    return (
+      <Dimmer active inverted>
+          <Loader inverted size='big'>Loading</Loader>
+      </Dimmer>
+    )
     }
 
   }

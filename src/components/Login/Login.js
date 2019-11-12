@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux'
 import {withRouter} from 'react-router-dom';
 import {login, loaded} from '../../actions/index';
+import { Dimmer, Loader } from 'semantic-ui-react';
 import axios from 'axios';
 
 class Login extends React.Component {
@@ -68,16 +69,25 @@ class Login extends React.Component {
     }
     
     render() {
+        if(this.props.loading === null) {
         return (
-        <React.Fragment>
-        </React.Fragment>
+            <React.Fragment>
+            </React.Fragment>
         )   
+        } else {
+            return (
+                <Dimmer active inverted>
+                    <Loader inverted size='big'>Logging in</Loader>
+                </Dimmer>
+            )   
+        }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         access_token: state,
+        loading: state.loading
     }
 }
 

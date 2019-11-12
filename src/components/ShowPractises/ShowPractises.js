@@ -1,5 +1,5 @@
 import React from 'react';
-import { Accordion, Header, Icon, Button } from 'semantic-ui-react'
+import { Accordion, Header, Icon, Button, Dimmer, Loader } from 'semantic-ui-react'
 import ModalPopup from '../Modals/ModalPopup';
 import { connect } from 'react-redux'
 import { getPractises, loaded, loading, deletePractise } from '../../actions/index';
@@ -76,7 +76,11 @@ class ShowPractises extends React.Component {
                )
       } else {
          this.props.dispatch(loading());
-         return (<div> spinner! </div>)
+         return (
+                <Dimmer active inverted>
+                    <Loader inverted size='big'>Loading</Loader>
+                </Dimmer>
+         )
       }     
    }
 }
