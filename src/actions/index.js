@@ -46,7 +46,7 @@ const practiseDeleted = (id) => ({
 export const addPractise = (access_token, practise) => {
     return (dispatch) => {
         dispatch(loading());
-        axios.post('https://localhost:8443/practises?token=' + access_token, practise)
+        axios.post('https://localhost:8443/practises?token=' + access_token, practise, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseAdded(practise));
@@ -64,7 +64,7 @@ export const addPractise = (access_token, practise) => {
 export const getPractises = (access_token) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get('https://localhost:8443/practises?token=' + access_token)
+        return axios.get('https://localhost:8443/practises?token=' + access_token, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(initPractises(response.data));
@@ -82,7 +82,7 @@ export const getPractises = (access_token) => {
 export const getPractise = (access_token, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get('https://localhost:8443/practises/' + id + '?token=' + access_token)
+        return axios.get('https://localhost:8443/practises/' + id + '?token=' + access_token, {withCredentials: true})
                 .then(
                     response => { 
                         dispatch(loaded());
@@ -99,7 +99,7 @@ export const getPractise = (access_token, id) => {
 export const editPractise = (access_token, practise, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.put('https://localhost:8443/practises/' + id + '?token=' + access_token, practise)
+        return axios.put('https://localhost:8443/practises/' + id + '?token=' + access_token, practise, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseEdited(practise, id));
@@ -116,7 +116,7 @@ export const editPractise = (access_token, practise, id) => {
 export const deletePractise = (access_token, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.delete('https://localhost:8443/practises/' + id + '?token=' + access_token)
+        return axios.delete('https://localhost:8443/practises/' + id + '?token=' + access_token, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseDeleted(id));

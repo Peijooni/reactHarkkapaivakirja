@@ -24,11 +24,11 @@ class Login extends React.Component {
     }
 
     userExists = async (access_token) => {
-        return await axios.get('https://localhost:8443/userExists?token='+access_token);
+        return await axios.get('https://localhost:8443/userExists?token='+access_token, {withCredentials: true});
     }
 
     createUser = async (token) => {
-          return await axios.get('https://localhost:8443/createUser?token=' + token);
+          return await axios.get('https://localhost:8443/createUser?token=' + token, {withCredentials: true});
     }
 
     componentDidMount() {
