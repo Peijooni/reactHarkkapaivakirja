@@ -4,13 +4,15 @@ import {withRouter} from 'react-router-dom';
 import {login, loaded} from '../../actions/index';
 import { Dimmer, Loader } from 'semantic-ui-react';
 import axios from 'axios';
+import environment from '../../environments/env';
 
 class Login extends React.Component {
 
     getToken = async (code) => {
+        console.log("id:", environment.clientId)
         const body = {
-            client_id: '1159e004bdfd8fd0d590',
-            client_secret: 'daa9d17cefe8ca51591ae9b06601541b260c70db',
+            client_id: environment.clientId, //'1159e004bdfd8fd0d590',
+            client_secret: environment.clientSecret, //'daa9d17cefe8ca51591ae9b06601541b260c70db',
             code: code
           }
               
@@ -24,11 +26,11 @@ class Login extends React.Component {
     }
 
     userExists = async (access_token) => {
-        return await axios.get('https://localhost:8443/userExists?token='+access_token, {withCredentials: true});
+        return await axios.get(environment.apiURL+'/userExists?token='+access_token, {withCredentials: true});
     }
 
     createUser = async (token) => {
-          return await axios.get('https://localhost:8443/createUser?token=' + token, {withCredentials: true});
+          return await axios.get(environment.apiURL+'/createUser?token=' + token, {withCredentials: true});
     }
 
     componentDidMount() {
