@@ -11,8 +11,8 @@ class Login extends React.Component {
     getToken = async (code) => {
         console.log("id:", environment.clientId)
         const body = {
-            client_id: environment.clientId, //'1159e004bdfd8fd0d590',
-            client_secret: environment.clientSecret, //'daa9d17cefe8ca51591ae9b06601541b260c70db',
+            client_id: environment.clientId,
+            client_secret: environment.clientSecret,
             code: code
           }
               
