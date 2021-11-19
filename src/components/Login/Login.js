@@ -9,28 +9,30 @@ import environment from '../../environments/env';
 class Login extends React.Component {
 
     getToken = async (code) => {
-        console.log("id:", environment.clientId)
         const body = {
             client_id: environment.clientId,
             client_secret: environment.clientSecret,
             code: code
           }
               
-          let res = await axios.post('https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', body);
-          let splitted = res.data.split("&");
-          splitted = splitted[0].split("=");
-          if(splitted[0] === "access_token") {
-            return splitted[1];
-          }    
-          return null;
+        //   let res = await axios.post('https://cors-anywhere.herokuapp.com/https://github.com/login/oauth/access_token', body);
+        let res = await axios.post('api/oauth', body);
+        res = JSON.parse(res.data);
+
+        let splitted = res.split("&");
+        splitted = splitted[0].split("=");
+        if(splitted[0] === "access_token") {
+          return splitted[1];
+        }    
+        return null;
     }
 
     userExists = async (access_token) => {
-        return await axios.get(environment.apiURL+'/userExists?token='+access_token, {withCredentials: true});
+        return await axios.get('api/userExists?token='+access_token, {withCredentials: true});
     }
 
     createUser = async (token) => {
-          return await axios.get(environment.apiURL+'/createUser?token=' + token, {withCredentials: true});
+          return await axios.get('api/createUser?token=' + token, {withCredentials: true});
     }
 
     componentDidMount() {

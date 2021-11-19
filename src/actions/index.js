@@ -1,5 +1,4 @@
 import axios from 'axios';
-import environment from '../environments/env';
 
 export const loading = () => ({
     type: 'LOADING'
@@ -47,7 +46,7 @@ const practiseDeleted = (id) => ({
 export const addPractise = (access_token, practise) => {
     return (dispatch) => {
         dispatch(loading());
-        axios.post(environment.apiURL + '/practises?token=' + access_token, practise, {withCredentials: true})
+        axios.post('api/practises?token=' + access_token, practise, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseAdded(practise));
@@ -65,7 +64,7 @@ export const addPractise = (access_token, practise) => {
 export const getPractises = (access_token) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get(environment.apiURL + '/practises?token=' + access_token, {withCredentials: true})
+        return axios.get('api/practises?token=' + access_token, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(initPractises(response.data));
@@ -83,7 +82,7 @@ export const getPractises = (access_token) => {
 export const getPractise = (access_token, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.get(environment.apiURL + '/practises/' + id + '?token=' + access_token, {withCredentials: true})
+        return axios.get('api/practises/' + id + '?token=' + access_token, {withCredentials: true})
                 .then(
                     response => { 
                         dispatch(loaded());
@@ -100,7 +99,7 @@ export const getPractise = (access_token, id) => {
 export const editPractise = (access_token, practise, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.put(environment.apiURL + '/practises/' + id + '?token=' + access_token, practise, {withCredentials: true})
+        return axios.put('api/practises/' + id + '?token=' + access_token, practise, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseEdited(practise, id));
@@ -117,7 +116,7 @@ export const editPractise = (access_token, practise, id) => {
 export const deletePractise = (access_token, id) => {
     return (dispatch) => {
         dispatch(loading());
-        return axios.delete(environment.apiURL + '/practises/' + id + '?token=' + access_token, {withCredentials: true})
+        return axios.delete('api/practises/' + id + '?token=' + access_token, {withCredentials: true})
                 .then(
                     response => {
                         dispatch(practiseDeleted(id));
